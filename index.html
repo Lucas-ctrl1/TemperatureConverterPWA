@@ -32,10 +32,12 @@
     </form>
 
     <script src="converter.js"></script>
-    <script>
-    if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('/sw.js', { scope: '/' });
-    }
-    </script>
+   <script>
+if('serviceWorker' in navigator) {
+    navigator.serviceWorker.register('./sw.js', { scope: './' })
+        .then(reg => console.log('✅ SW Registered!', reg))
+        .catch(err => console.log('❌ SW Failed:', err));
+}
+</script>
 </body>
 </html>
