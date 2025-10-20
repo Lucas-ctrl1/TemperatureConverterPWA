@@ -7,8 +7,8 @@
     <title>Temperature Converter</title>
 
     <!-- CSS and Manifest -->
-    <link rel="stylesheet" href="converter.css">
-    <link rel="manifest" href="/manifest.json">
+    <link rel="stylesheet" href="./converter.css">
+    <link rel="manifest" href="./manifest.json">
   </head>
 
   <body>
@@ -35,12 +35,11 @@
       <output name="output-temp" id="output-temp">68 F</output>
     </form>
 
-    <script src="converter.js"></script>
+    <script src="./converter.js"></script>
     <script>
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('/sw.js', { scope: '/' });
-}
-</script>
-
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('./sw.js', { scope: './' });
+    }
+    </script>
   </body>
 </html>

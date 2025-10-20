@@ -3,7 +3,14 @@ const CACHE_NAME = 'temperature-converter-v1';
 self.addEventListener('install', event => {
   event.waitUntil((async () => {
     const cache = await caches.open(CACHE_NAME);
-    await cache.addAll(['/', '/converter.js', '/converter.css', '/index.html']);
+    await cache.addAll([
+      './',
+      './index.html',
+      './converter.js',
+      './converter.css',
+      './manifest.json',
+      './icon512.png'
+    ]);
   })());
 });
 
@@ -17,7 +24,7 @@ self.addEventListener('fetch', event => {
       cache.put(event.request, fetchResponse.clone());
       return fetchResponse;
     } catch (e) {
-      return new Response('Offline', { status: 503, statusText: 'Offline' });
+      return new Response('Offline', { status: 503 });
     }
   })());
 });
