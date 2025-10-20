@@ -1,34 +1,32 @@
 const CACHE_NAME = 'temperature-converter-v1';
 
-self.addEventListener('install', event => {
-    event.waitUntil((async () => {
-        const cache = await caches.open(CACHE_NAME);
-        await cache.addAll([
-            './',
-            './index.html',
-            './converter.js',
-            './converter.css',
-            './manifest.json',
-            './icon.jpg'
-        ]);
-    })());
+self.addEventListener('install', (event) => {
+    console.log('Service Worker installing...');
+    event.waitUntil(
+        caches.open(CACHE_NAME)
+            .then((cache) => {
+                console.log('Caching app resources...');
+                return cache.addAll([
+                    './',
+                    './index.html',
+                    './converter.js',
+                    './converter.css',
+                    './manifest.json',
+                    './icon.jpg'
+                ]);
+            })
+    );
 });
 
-self.addEventListener('fetch', event => {
-    event.respondWith((async () => {
-        const cache = await caches.open(CACHE_NAME);
-        const cachedResponse = await cache.match(event.request);
-        if (cachedResponse) {
-            return cachedResponse;
-        } else {
-            try {
-                const fetchResponse = await fetch(event.request);
-                cache.put(event.request, fetchResponse.clone());
-                return fetchResponse;
-            } catch (e) {
-                // Network failed
-                return new Response('Offline', { status: 503 });
+self.addEventListener('fetch', (event) => {
+    event.respondWith(
+        caches.match(event.request)
+            .then((response) => {
+                if (response) {
+                    return response;
+                }
+                return fetch(event.request);
             }
-        }
-    })());
+        )
+    );
 });
