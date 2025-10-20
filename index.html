@@ -32,110 +32,12 @@
     </form>
 
     <script src="converter.js"></script>
-    
-    <!-- Service Worker & Install Handler -->
     <script>
-    // Service Worker Registration
     if('serviceWorker' in navigator) {
-        navigator.serviceWorker.register('sw.js')
-            .then(registration => {
-                console.log('✅ Service Worker registered successfully:', registration);
-                return registration.update();
-            })
-            .then(() => {
-                console.log('✅ Service Worker updated');
-                return navigator.serviceWorker.ready;
-            })
-            .then(registration => {
-                console.log('✅ Service Worker is controlling the page');
-            })
-            .catch(error => {
-                console.log('❌ Service Worker registration failed:', error);
-            });
+        navigator.serviceWorker.register('sw.js', { scope: './' })
+            .then(reg => console.log('✅ SW Registered!', reg))
+            .catch(err => console.log('❌ SW Failed:', err));
     }
-
-    // Install Prompt Handler
-    let deferredPrompt;
-    let installButton;
-
-    window.addEventListener('beforeinstallprompt', (e) => {
-        console.log('🎯 beforeinstallprompt event fired!');
-        // Prevent the mini-infobar from appearing on mobile
-        e.preventDefault();
-        // Stash the event so it can be triggered later
-        deferredPrompt = e;
-        
-        // Create and show install button
-        installButton = document.createElement('button');
-        installButton.innerHTML = '📱 INSTALL APP';
-        installButton.style.cssText = `
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            padding: 15px 25px;
-            background: #2f3d58;
-            color: white;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            font-size: 16px;
-            font-weight: bold;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            z-index: 10000;
-            transition: all 0.3s ease;
-        `;
-        
-        installButton.onmouseover = function() {
-            this.style.background = '#1e2a3f';
-            this.style.transform = 'scale(1.05)';
-        };
-        
-        installButton.onmouseout = function() {
-            this.style.background = '#2f3d58';
-            this.style.transform = 'scale(1)';
-        };
-        
-        installButton.onclick = async () => {
-            if (!deferredPrompt) {
-                console.log('No deferred prompt available');
-                return;
-            }
-            
-            console.log('🚀 Showing install prompt...');
-            // Show the install prompt
-            deferredPrompt.prompt();
-            
-            // Wait for the user to respond to the prompt
-            const { outcome } = await deferredPrompt.userChoice;
-            console.log(`User response: ${outcome}`);
-            
-            if (outcome === 'accepted') {
-                console.log('✅ User accepted the install');
-                installButton.style.display = 'none';
-            } else {
-                console.log('❌ User dismissed the install');
-            }
-            
-            // Clear the saved prompt since it can't be used again
-            deferredPrompt = null;
-        };
-        
-        document.body.appendChild(installButton);
-        console.log('✅ Install button added to page');
-    });
-
-    window.addEventListener('appinstalled', (evt) => {
-        console.log('🎉 PWA was successfully installed!');
-        if (installButton) {
-            installButton.style.display = 'none';
-        }
-        deferredPrompt = null;
-    });
-
-    // Debug info
-    console.log('🏁 PWA setup complete');
-    console.log('Manifest:', document.querySelector('link[rel="manifest"]'));
-    console.log('Service Worker support:', 'serviceWorker' in navigator);
     </script>
 </body>
 </html>
