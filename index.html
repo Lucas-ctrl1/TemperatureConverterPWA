@@ -34,7 +34,7 @@
     <script src="converter.js"></script>
    <script>
 if('serviceWorker' in navigator) {
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
+    navigator.serviceWorker.register('/TemperatureConverterPWA/sw.js')
         .then(reg => console.log('✅ SW Registered!', reg))
         .catch(err => console.log('❌ SW Failed:', err));
 }
