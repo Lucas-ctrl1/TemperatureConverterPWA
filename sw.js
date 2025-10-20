@@ -4,12 +4,9 @@ self.addEventListener('install', event => {
     event.waitUntil((async () => {
         const cache = await caches.open(CACHE_NAME);
         await cache.addAll([
-            './',
-            './index.html',
-            './converter.js',
-            './converter.css',
-            './manifest.json',
-            './icon.jpg'
+            '/',
+            '/converter.js',
+            '/converter.css'
         ]);
     })());
 });
@@ -27,7 +24,6 @@ self.addEventListener('fetch', event => {
                 return fetchResponse;
             } catch (e) {
                 // Network failed
-                return new Response('Offline', { status: 503 });
             }
         }
     })());
