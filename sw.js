@@ -4,7 +4,7 @@ const CACHE_NAME = 'temperature-converter-v1';
 self.addEventListener('install', event => {
     event.waitUntil((async () => {
         const cache = await caches.open(CACHE_NAME);
-        cache.addAll([
+        await cache.addAll([  // ✅ Use array brackets and await
             '/',
             '/converter.js',
             '/converter.css'
