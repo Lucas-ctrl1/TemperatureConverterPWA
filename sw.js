@@ -4,9 +4,10 @@ self.addEventListener('install', event => {
     event.waitUntil((async () => {
         const cache = await caches.open(CACHE_NAME);
         await cache.addAll([
-            '/',
-            '/converter.js',
-            '/converter.css'
+            '/TemperatureConverterPWA/',
+            '/TemperatureConverterPWA/converter.js',
+            '/TemperatureConverterPWA/converter.css',
+            '/TemperatureConverterPWA/icon513.png'
         ]);
     })());
 });
