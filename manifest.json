@@ -10,7 +10,7 @@
     "display": "standalone",
     "icons": [
         {
-            "src": "/icon512.png",
+            "src": "/icon.jpg",
             "sizes": "512x512"
         }
     ]
